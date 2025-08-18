@@ -23,7 +23,7 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 // CORS Configuration
 const allowedOrigins = [
   "http://localhost:3000", // React dev server
-  "https://your-production-domain.com", // Your production frontend
+  "https://blog-frontend-coral-eta.vercel.app", // Your production frontend
 ];
 
 app.use(
