@@ -7,6 +7,7 @@ import blogRoutes from "./routes/blogRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
 import cloudinaryRoutes from "./routes/cloudinaryRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
+import newsLetterRoutes from "./routes/newsLetterRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -49,6 +50,7 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/upload", cloudinaryRoutes); // Image upload route
 app.use("/api/ai", aiRoutes); // AI routes
+app.use("/api/newsletter", newsLetterRoutes); // Newsletter routes
 
 // Root route
 app.get("/", (req, res) => {
