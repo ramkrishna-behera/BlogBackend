@@ -65,7 +65,10 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 loadSecrets() // ✅ ensure secrets loaded first
-  .then(() => connectDB())
+  .then(() => {
+    console.log("JWT_SECRET from env:", process.env.JWT_SECRET); // ✅ moved here
+    return connectDB();
+  })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`✅ Server running on port ${PORT}`);
@@ -75,5 +78,3 @@ loadSecrets() // ✅ ensure secrets loaded first
     console.error("❌ Startup failed:", err);
     process.exit(1);
   });
-
-console.log("JWT_SECRET from env:", process.env.JWT_SECRET);
