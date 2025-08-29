@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
+import { loadSecrets } from "./config/secrets.js"; // ✅ added
 import authRoutes from "./routes/authRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
@@ -12,11 +13,9 @@ import newsLetterRoutes from "./routes/newsLetterRoutes.js";
 // Load environment variables
 dotenv.config();
 
-
 if (!process.env.GAE_ENV) {
   dotenv.config();
 }
-
 
 // Create Express app
 const app = express();
@@ -36,7 +35,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like Postman or mobile apps)
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
@@ -54,26 +52,27 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/comments", commentRoutes);
-app.use("/api/upload", cloudinaryRoutes); // Image upload route
-app.use("/api/ai", aiRoutes); // AI routes
-app.use("/api/newsletter", newsLetterRoutes); // Newsletter routes
+app.use("/api/upload", cloudinaryRoutes);
+app.use("/api/ai", aiRoutes);
+app.use("/api/newsletter", newsLetterRoutes);
 
 // Root route
 app.get("/", (req, res) => {
   res.send("API is running fine ig...");
 });
 
-// Start server only after DB connection
+// Start server only after secrets + DB connection
 const PORT = process.env.PORT || 5000;
 
-connectDB()
+loadSecrets() // ✅ ensure secrets loaded first
+  .then(() => connectDB())
   .then(() => {
     app.listen(PORT, () => {
       console.log(`✅ Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("❌ Failed to connect to MongoDB:", err);
+    console.error("❌ Startup failed:", err);
     process.exit(1);
   });
 
