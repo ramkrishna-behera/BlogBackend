@@ -1,0 +1,6 @@
+runtime: nodejs20
+env: standard
+
+# environment variables (non-secrets)
+env_variables:
+  NODE_ENV: "production"

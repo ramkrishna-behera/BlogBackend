@@ -12,6 +12,12 @@ import newsLetterRoutes from "./routes/newsLetterRoutes.js";
 // Load environment variables
 dotenv.config();
 
+
+if (!process.env.GAE_ENV) {
+  dotenv.config();
+}
+
+
 // Create Express app
 const app = express();
 
@@ -54,7 +60,7 @@ app.use("/api/newsletter", newsLetterRoutes); // Newsletter routes
 
 // Root route
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("API is running fine ig...");
 });
 
 // Start server only after DB connection

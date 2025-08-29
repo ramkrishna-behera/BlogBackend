@@ -1,0 +1,8 @@
+steps:
+  # Use the Cloud SDK image to run gcloud
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args: ["app", "deploy", "app.yaml", "--quiet"]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
